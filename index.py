@@ -28,19 +28,20 @@ def upsert_docs(index: Index, df: pd.DataFrame, embeddings_col: str, metadata_co
     embeddings = df[embeddings_col].apply(lambda x: eval(x)).to_list()
     metadata = df[metadata_cols].to_dict(orient='records')
     num_docs = len(embeddings)
+    print(f'Number of documents: {num_docs}')
     for i in tqdm.tqdm(range(0, num_docs, batch_size)):
         embeddings_batch = embeddings[i: i+batch_size]
         ids_batch = df.index[i: i+batch_size].astype(str).to_list()
         metadata_batch = metadata[i: i+batch_size]
         
         to_upsert = list(zip(ids_batch, embeddings_batch, metadata_batch))
-        print(to_upsert[0])
+        # print(to_upsert[0])
         index.upsert(vectors=to_upsert)
 
 
 if __name__ == '__main__':
-    data_path = 'data/music/'
-    file_name = 'english_recent_pop_rnb_songs_embedding'
+    data_path = 'data/'+'code_of_conduct/'
+    file_name = 'code_of_conduct_embedding'
     format = '.csv'
     
     config_path = 'config.yml'
@@ -65,4 +66,4 @@ if __name__ == '__main__':
     
     print(pinecone.describe_index(index_name))
 
-    upsert_docs(index, df, 'embeddings', ['artist', 'title'])
+    upsert_docs(index, df, 'embeddings', ['chunks'])

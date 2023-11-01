@@ -1,4 +1,7 @@
 import re
+
+import pandas as pd 
+
 from pdfminer.high_level import extract_text
 
 class DocumentParser:
@@ -9,7 +12,9 @@ class DocumentParser:
         self.chunks = []
 
     def read_pdf(self):
+        print(self.filename)
         self.text = extract_text(self.filename)
+        # print(self.text)
     
     def clean_text(self):
         self.text = ' '.join(self.text.split())
@@ -26,11 +31,21 @@ class DocumentParser:
         if chunk_curr:
             self.chunks.append(chunk_curr)
 
+    def save_as_csv(self, csv_filepath:str, col_name):
+        df = pd.DataFrame(self.chunks, columns=[col_name])
+        df.to_csv(csv_filepath)
+
 if __name__ == "__main__":
-    dp = DocumentParser("./test.pdf", 500)
+    dp = DocumentParser("./data/code_of_conduct/code_of_conduct.pdf", 500)
     dp.read_pdf()
     dp.clean_text()
     dp.chunk_text()
 
-    # print(dp.chunks[10])
+    csv_filepath = "./data/code_of_conduct/code_of_conduct.csv"
+    print(dp.chunks[10])
+
+    dp.save_as_csv(csv_filepath, "chunks")
+
+    df = pd.read_csv(csv_filepath, index_col=0)
+    print(df)
     

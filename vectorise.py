@@ -27,15 +27,16 @@ def embed_docs(df: pd.DataFrame, data_col: str, model):
 
 if __name__ == '__main__':
     subset = 10
-    data_path = 'data/music/'
-    file_name = 'english_recent_pop_rnb_songs'
+    data_path = 'data'+ '/code_of_conduct/'
+    file_name = 'code_of_conduct'
     format = '.csv'
+    data_col_name = 'chunks'
 
-    df = pd.read_csv(data_path + file_name + format).head(subset)
+    df = pd.read_csv(data_path + file_name + format)
     df.drop(labels=['Unnamed: 0'], axis=1, inplace=True)
     
     model = load_model('thenlper/gte-base')
-    embeddings = embed_docs(df, 'lyrics', model)
+    embeddings = embed_docs(df, data_col_name, model)
     print(len(embeddings))
     df['embeddings'] = embeddings
     print(df)
