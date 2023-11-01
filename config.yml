@@ -1,0 +1,4 @@
+pinecone:
+  api-key: 181aeb5b-537b-430b-aaa4-22c43bfa8dfd
+  environment: gcp-starter
+
