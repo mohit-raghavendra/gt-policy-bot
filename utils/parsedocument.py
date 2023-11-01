@@ -10,17 +10,17 @@ class DocumentParser:
         self.text = ""
         self.chunk_size = chunk_size
         self.chunks = []
-
-    def read_pdf(self):
-        print(self.filename)
+        self.num_chunks = 0
+    
+    def _read_pdf(self):
         self.text = extract_text(self.filename)
         # print(self.text)
     
-    def clean_text(self):
+    def _clean_text(self):
         self.text = ' '.join(self.text.split())
         self.text = re.sub(r'[^a-zA-Z0-9.!?-]', ' ', self.text)
 
-    def chunk_text(self):
+    def _chunk_text(self):
         chunk_curr = ""
 
         for letter in self.text:
@@ -31,21 +31,24 @@ class DocumentParser:
         if chunk_curr:
             self.chunks.append(chunk_curr)
 
-    def save_as_csv(self, csv_filepath:str, col_name):
+        self.num_chunks = len(self.chunks)
+
+    def _save_as_csv(self, csv_filepath:str, col_name):
         df = pd.DataFrame(self.chunks, columns=[col_name])
         df.to_csv(csv_filepath)
 
+    def run(self, csv_filepath:str, col_name: str):
+        self._read_pdf()
+        self._clean_text()
+        self._chunk_text()
+        self._save_as_csv(csv_filepath, col_name)
+        
+        
 if __name__ == "__main__":
     dp = DocumentParser("./data/code_of_conduct/code_of_conduct.pdf", 500)
-    dp.read_pdf()
-    dp.clean_text()
-    dp.chunk_text()
-
     csv_filepath = "./data/code_of_conduct/code_of_conduct.csv"
-    print(dp.chunks[10])
 
-    dp.save_as_csv(csv_filepath, "chunks")
 
+    dp.run(csv_filepath=csv_filepath, col_name="chunks")    
     df = pd.read_csv(csv_filepath, index_col=0)
     print(df)
-    

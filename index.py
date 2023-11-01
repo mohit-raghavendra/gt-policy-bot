@@ -8,62 +8,73 @@ import pandas as pd
 from typing import List
 from pinecone.index import Index
 
-def connect_index(index_name: str, api_key: str, env:str, embedding_dimension: int, delete_existing: bool = False):
-    pinecone.init(
-        api_key=api_key,
-        environment=env
-    )
+class VectorDB:
+    def __init__(self, index_name: str):
+        self.index_name = index_name
+        self.index = None
 
-    if index_name in pinecone.list_indexes() and delete_existing:
-        pinecone.delete_index(index_name)
+    def connect_index(self, api_key: str, env:str, embedding_dimension: int, delete_existing: bool = False):
+        index_name = self.index_name
 
-    if index_name not in pinecone.list_indexes():
-        pinecone.create_index(index_name, dimension=embedding_dimension)
+        pinecone.init(
+            api_key=api_key,
+            environment=env
+        )
 
-    index = pinecone.Index(index_name)
-    return index
+        if index_name in pinecone.list_indexes() and delete_existing:
+            pinecone.delete_index(index_name)
 
+        if index_name not in pinecone.list_indexes():
+            pinecone.create_index(index_name, dimension=embedding_dimension)
 
-def upsert_docs(index: Index, df: pd.DataFrame, embeddings_col: str, metadata_cols: List[str], batch_size: int=2):
-    embeddings = df[embeddings_col].apply(lambda x: eval(x)).to_list()
-    metadata = df[metadata_cols].to_dict(orient='records')
-    num_docs = len(embeddings)
-    print(f'Number of documents: {num_docs}')
-    for i in tqdm.tqdm(range(0, num_docs, batch_size)):
-        embeddings_batch = embeddings[i: i+batch_size]
-        ids_batch = df.index[i: i+batch_size].astype(str).to_list()
-        metadata_batch = metadata[i: i+batch_size]
-        
-        to_upsert = list(zip(ids_batch, embeddings_batch, metadata_batch))
-        # print(to_upsert[0])
-        index.upsert(vectors=to_upsert)
+        index = pinecone.Index(index_name)
 
+        pinecone.describe_index(index_name)
+        self.index = index
 
+    def upsert_docs(self, df: pd.DataFrame, embeddings_col: str, metadata_cols: List[str], batch_size: int=2):
+        embeddings = df[embeddings_col].apply(lambda x: eval(x)).to_list()
+        metadata = df[metadata_cols].to_dict(orient='records')
+        num_docs = len(embeddings)
+        print(f'Number of documents: {num_docs}')
+        for i in tqdm.tqdm(range(0, num_docs, batch_size)):
+            embeddings_batch = embeddings[i: i+batch_size]
+            ids_batch = df.index[i: i+batch_size].astype(str).to_list()
+            metadata_batch = metadata[i: i+batch_size]
+            
+            to_upsert = list(zip(ids_batch, embeddings_batch, metadata_batch))
+            self.index.upsert(vectors=to_upsert)
+
+    def query(self, query_embedding: np.ndarray, top_k: int=5):
+        results = self.index.query(query_embedding, top_k=top_k, include_metadata=True)
+        data = [match['metadata']['chunks'] for match in results['matches']]
+        return data
+    
 if __name__ == '__main__':
-    data_path = 'data/'+'code_of_conduct/'
-    file_name = 'code_of_conduct_embedding'
-    format = '.csv'
-    
     config_path = 'config.yml'
-    
-    embedding_dimension = 768
-    index_name = 'song-search'
-    delete_existing = True
-
     with open('config.yml', 'r') as file:
         config = yaml.safe_load(file)
 
     print(config)
-    df = pd.read_csv(data_path + file_name + format, index_col = 0)
-    print(df)
 
-    index = connect_index(index_name,
-                          config['pinecone']['api-key'], 
-                          config['pinecone']['environment'], 
-                          embedding_dimension, 
-                          delete_existing
-                          )
+    data_path = config['paths']['data_path']
+    project = config['paths']['project']
+    format = '.csv'
+
     
-    print(pinecone.describe_index(index_name))
+    index_name = config['pinecone']['index-name']
+    embedding_dimension = config['sentence-transformers']['embedding-dimension']    
+    delete_existing = True
 
-    upsert_docs(index, df, 'embeddings', ['chunks'])
+    file_path_embedding = data_path+project+'_embedding'+format
+    df = pd.read_csv(file_path_embedding, index_col = 0)
+    print(df.head())
+
+    vector_db = VectorDB(index_name)
+    vector_db.connect_index(config['pinecone']['api-key'], 
+                            config['pinecone']['environment'], 
+                            embedding_dimension, 
+                            delete_existing)
+
+
+    vector_db.upsert_docs(df, 'embeddings', ['chunks'])

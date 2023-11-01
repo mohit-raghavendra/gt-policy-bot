@@ -1,5 +1,7 @@
 import tqdm
+import yaml
 
+import numpy as np
 import pandas as pd
 
 from typing import List
@@ -8,41 +10,56 @@ from sentence_transformers import SentenceTransformer
 
 BATCH_SIZE = 2
 
-def load_model(model_name: str):
-    model = SentenceTransformer(model_name)
-    return model
+class Vectorizer:
+    def __init__(self, model_name: str):
+        self.model_name = model_name
+        self.model = SentenceTransformer(model_name)
+        self.batch_size = BATCH_SIZE
 
-def embed_docs(df: pd.DataFrame, data_col: str, model):
-    docs = df[data_col]
-    num_docs = len(docs)
-    print(model)
-    embeddings = []
-    for i in tqdm.tqdm(range(0, num_docs, BATCH_SIZE)):
-        docs_batch = docs[i: i+BATCH_SIZE].to_list()
-        vectors_batch = model.encode(docs_batch).tolist()
-        embeddings.append(vectors_batch)
+    def get_query_embedding(self, query: str) -> np.ndarray:
+        return self.model.encode(query)
+                              
+    def get_embeddings(self, df: pd.DataFrame, data_col: str):
+        docs = df[data_col]
+        num_docs = len(docs)
+        embeddings = []
+        for i in tqdm.tqdm(range(0, num_docs, self.batch_size)):
+            docs_batch = docs[i: i+self.batch_size].to_list()
+            vectors_batch = self.model.encode(docs_batch).tolist()
+            embeddings.append(vectors_batch)
 
-    return [embedding for batch in embeddings for embedding in batch]
+        embeddings_flattened = [embedding for batch in embeddings for embedding in batch]
 
+        assert len(embeddings_flattened) == num_docs
+        return embeddings_flattened
+
+    def embed_docs(self, df: pd.DataFrame, data_col: str) -> pd.DataFrame:
+        embeddings = self.get_embeddings(df, data_col)
+        df['embeddings'] = embeddings
+        
+        return df   
 
 if __name__ == '__main__':
-    subset = 10
-    data_path = 'data'+ '/code_of_conduct/'
-    file_name = 'code_of_conduct'
+    config_path = 'config.yml'
+    with open('config.yml', 'r') as file:
+        config = yaml.safe_load(file)
+
+    print(config)
+
+    data_path = config['paths']['data_path']
+    project = config['paths']['project']
     format = '.csv'
+
     data_col_name = 'chunks'
-
-    df = pd.read_csv(data_path + file_name + format)
+    df = pd.read_csv(data_path + project + format)
     df.drop(labels=['Unnamed: 0'], axis=1, inplace=True)
-    
-    model = load_model('thenlper/gte-base')
-    embeddings = embed_docs(df, data_col_name, model)
-    print(len(embeddings))
-    df['embeddings'] = embeddings
-    print(df)
 
-    file_path_embedding = data_path+file_name+'_embedding'+format
-    df.to_csv(file_path_embedding)
+    vectorizer = Vectorizer(config['sentence-transformers']['model-name'])
+    df_embeddings = vectorizer.embed_docs(df, data_col_name)
+    print(df_embeddings.head())
+
+    file_path_embedding = data_path+project+'_embedding'+format
+    df_embeddings.to_csv(file_path_embedding)
 
     df_read = pd.read_csv(file_path_embedding, index_col=0)
-    print(df_read)
+    assert len(df_read) == len(df_embeddings)
