@@ -22,11 +22,9 @@ if __name__ == '__main__':
     vectorizer = Vectorizer(config['sentence-transformers']['model-name'])  
     
     vector_db = VectorDB(config['pinecone']['index-name'])
-    vector_db.connect_index(config['sentence-transformers']['embedding-dimension'], 
-                            False)
+    vector_db.connect_index(config['sentence-transformers']['embedding-dimension'], False)
 
     def run_query(query: str):
-        print(query)
         query_embedding = vectorizer.get_query_embedding(query).tolist()
         closest_documents= vector_db.query([query_embedding], top_k=TOP_K)
         return closest_documents

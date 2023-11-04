@@ -6,6 +6,7 @@ import yaml
 import numpy as np
 import pandas as pd
 
+from dotenv import load_dotenv
 from typing import List
 from pinecone.index import Index
 
@@ -14,12 +15,12 @@ class VectorDB:
         self.index_name = index_name
         self.index = None
 
-    def connect_index(self, api_key: str, env:str, embedding_dimension: int, delete_existing: bool = False):
+    def connect_index(self, embedding_dimension: int, delete_existing: bool = False):
         index_name = self.index_name
 
         pinecone.init(
-            api_key=os.environ['PINECONE_KEY'], 
-            environment=os.environ['PINECONE_ENV'],
+            api_key=os.getenv('PINECONE_KEY'), 
+            environment=os.getenv('PINECONE_ENV'),
         )
 
         if index_name in pinecone.list_indexes() and delete_existing:

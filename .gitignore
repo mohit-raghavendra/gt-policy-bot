@@ -2,3 +2,4 @@ policy-bot/
 generator.py
 __pycache__/
 flagged/
+.env

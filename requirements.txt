@@ -6,3 +6,4 @@ tqdm
 pdfminer-six
 langchain
 gradio
+python-dotenv
