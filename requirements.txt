@@ -7,3 +7,4 @@ pdfminer-six
 langchain
 gradio
 python-dotenv
+faiss-cpu
