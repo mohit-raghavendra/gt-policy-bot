@@ -1,4 +1,5 @@
 import pinecone
+import os
 import tqdm
 import yaml
 
@@ -17,8 +18,8 @@ class VectorDB:
         index_name = self.index_name
 
         pinecone.init(
-            api_key=api_key,
-            environment=env
+            api_key=os.environ['PINECONE_KEY'], 
+            environment=os.environ['PINECONE_ENV'],
         )
 
         if index_name in pinecone.list_indexes() and delete_existing:
@@ -71,9 +72,7 @@ if __name__ == '__main__':
     print(df.head())
 
     vector_db = VectorDB(index_name)
-    vector_db.connect_index(config['pinecone']['api-key'], 
-                            config['pinecone']['environment'], 
-                            embedding_dimension, 
+    vector_db.connect_index(embedding_dimension, 
                             delete_existing)
 
 

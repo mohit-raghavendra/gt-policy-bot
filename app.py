@@ -1,3 +1,4 @@
+import os
 import yaml
 
 import gradio as gr
@@ -21,9 +22,7 @@ if __name__ == '__main__':
     vectorizer = Vectorizer(config['sentence-transformers']['model-name'])  
     
     vector_db = VectorDB(config['pinecone']['index-name'])
-    vector_db.connect_index(config['pinecone']['api-key'], 
-                            config['pinecone']['environment'], 
-                            config['sentence-transformers']['embedding-dimension'], 
+    vector_db.connect_index(config['sentence-transformers']['embedding-dimension'], 
                             False)
 
     def run_query(query: str):
