@@ -19,7 +19,6 @@ if __name__ == '__main__':
     project = config['paths']['project']
 
     vectorizer = Vectorizer(config['sentence-transformers']['model-name'])  
-    # query = "Latest revision data of the student code of conduct"
     
     vector_db = VectorDB(config['pinecone']['index-name'])
     vector_db.connect_index(config['pinecone']['api-key'], 
@@ -35,10 +34,10 @@ if __name__ == '__main__':
 
     demo = gr.Interface(
         fn=run_query, 
-        inputs="text", 
-        outputs=["text"]*TOP_K,
-        title="Code of Conduct Search",
-        description="Search for code of conduct snippets using semantic search."
+        inputs=gr.Textbox(placeholder="Enter your question..."), 
+        outputs=[gr.Textbox(label=f'Document {i+1}') for i in range(TOP_K)],
+        title="GT Student Code of Conduct Bot",
+        description="Get LLM-powered answers to questions about the Georgia Tech Student Code of Conduct."
     )
 
     demo.launch()   

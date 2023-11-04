@@ -4,3 +4,5 @@ sentence-transformers
 torch
 tqdm
 pdfminer-six
+langchain
+gradio

@@ -2,12 +2,15 @@ paths:
   project: 'code_of_conduct'
   data_path: './data/code_of_conduct/'
   
-
 pinecone:
   api-key: 181aeb5b-537b-430b-aaa4-22c43bfa8dfd
   environment: gcp-starter
   index-name: gt-code-of-conduct
 
 sentence-transformers:
-  model-name: 'thenlper/gte-base'
+  model-name: thenlper/gte-base
   embedding-dimension: 768
+
+huggingface:
+  token: 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
+  llama-url: https://api-inference.huggingface.co/models/Trelis/Llama-2-7b-chat-hf-hosted-inference-8bit
