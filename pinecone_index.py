@@ -11,16 +11,18 @@ from langchain.vectorstores.pinecone import Pinecone
 
 from typing import List
 
+
 class PinceconeIndex:
     def __init__(self, index_name: str, model_name: str):
         self.index_name = index_name
         self._embeddingModel = HuggingFaceEmbeddings(model_name=model_name)
 
-    def connect_index(self, embedding_dimension: int, delete_existing: bool = False):
+    def connect_index(self, embedding_dimension: int,
+                      delete_existing: bool = False):
         index_name = self.index_name
 
         pinecone.init(
-            api_key=os.getenv('PINECONE_KEY'), 
+            api_key=os.getenv('PINECONE_KEY'),
             environment=os.getenv('PINECONE_ENV'),
         )
 
@@ -38,13 +40,16 @@ class PinceconeIndex:
     def upsert_docs(self, df: pd.DataFrame, text_col: str):
         loader = DataFrameLoader(df, page_content_column=text_col)
         docs = loader.load()
-        Pinecone.from_documents(docs, self._embeddingModel, index_name=self.index_name)
+        Pinecone.from_documents(docs, self._embeddingModel,
+                                index_name=self.index_name)
 
-    def query(self, query: str, top_k:int = 5) -> List[str]:
-        docsearch = Pinecone.from_existing_index(self.index_name, self._embeddingModel)
+    def query(self, query: str, top_k: int = 5) -> List[str]:
+        docsearch = Pinecone.from_existing_index(self.index_name,
+                                                 self._embeddingModel)
         res = docsearch.similarity_search(query, k=top_k)
 
         return [doc.page_content for doc in res]
+
 
 if __name__ == '__main__':
     config_path = 'config.yml'
@@ -58,12 +63,14 @@ if __name__ == '__main__':
     format = '.csv'
 
     index_name = config['pinecone']['index-name']
-    embedding_model = config['sentence-transformers']['model-name']
-    embedding_dimension = config['sentence-transformers']['embedding-dimension']    
+    embedding_model = config['sentence-transformers'][
+        'model-name']
+    embedding_dimension = config['sentence-transformers'][
+        'embedding-dimension']
     delete_existing = True
 
     file_path_embedding = data_path+project+format
-    df = pd.read_csv(file_path_embedding, index_col = 0)
+    df = pd.read_csv(file_path_embedding, index_col=0)
     print(df.head())
 
     start_time = time.time()
