@@ -5,6 +5,7 @@ import gradio as gr
 
 from vectorise import Vectorizer
 from index import VectorDB
+from pinecone_index import PinceconeIndex
 
 TOP_K = 5
 
@@ -18,16 +19,17 @@ if __name__ == '__main__':
 
     data_path = config['paths']['data_path']
     project = config['paths']['project']
-
-    vectorizer = Vectorizer(config['sentence-transformers']['model-name'])  
     
-    vector_db = VectorDB(config['pinecone']['index-name'])
-    vector_db.connect_index(config['sentence-transformers']['embedding-dimension'], False)
+    index_name = config['pinecone']['index-name']
+    embedding_model = config['sentence-transformers']['model-name']
+    embedding_dimension = config['sentence-transformers']['embedding-dimension']    
+
+    index = PinceconeIndex(index_name, embedding_model)
+    index.connect_index(embedding_dimension, False)
 
     def run_query(query: str):
-        query_embedding = vectorizer.get_query_embedding(query).tolist()
-        closest_documents= vector_db.query([query_embedding], top_k=TOP_K)
-        return closest_documents
+        res = index.query(query, top_k=5)
+        return res
 
     demo = gr.Interface(
         fn=run_query, 
