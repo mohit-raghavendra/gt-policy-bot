@@ -9,12 +9,14 @@ from langchain.vectorstores.faiss import FAISS
 
 from typing import List
 
+
 class FaissIndex:
     def __init__(self, index_name: str, model_name: str):
         self.index_name = index_name
         self._embeddingModel = HuggingFaceEmbeddings(model_name=model_name)
 
-    def connect_index(self, embedding_dimension: int, delete_existing: bool = False):
+    def connect_index(self, embedding_dimension: int,
+                      delete_existing: bool = False):
         ...
 
     def upsert_docs(self, df: pd.DataFrame, text_col: str):
@@ -22,11 +24,11 @@ class FaissIndex:
         docs = loader.load()
         self._db = FAISS.from_documents(docs, self._embeddingModel)
 
-
-    def query(self, query: str, top_k:int = 5) -> List[str]:
+    def query(self, query: str, top_k: int = 5) -> List[str]:
         res = self._db.similarity_search(query, k=top_k)
 
         return [doc.page_content for doc in res]
+
 
 if __name__ == '__main__':
     config_path = 'config.yml'
@@ -41,11 +43,12 @@ if __name__ == '__main__':
 
     index_name = config['pinecone']['index-name']
     embedding_model = config['sentence-transformers']['model-name']
-    embedding_dimension = config['sentence-transformers']['embedding-dimension']    
+    embedding_dimension = config['sentence-transformers'][
+        'embedding-dimension']
     delete_existing = True
 
     file_path_embedding = data_path+project+format
-    df = pd.read_csv(file_path_embedding, index_col = 0)
+    df = pd.read_csv(file_path_embedding, index_col=0)
     print(df.head())
 
     start_time = time.time()
