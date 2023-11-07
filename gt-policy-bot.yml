@@ -1,0 +1,28 @@
+name: gtpb
+channels:
+    - defaults
+dependencies:
+    - matplotlib
+    - numpy
+    - imageio
+    - scikit-learn
+    - notebook
+    - pandas
+    - scipy
+    - ipywidgets
+    - statsmodels
+    - jupyterlab
+    - plotly
+    - pip
+    - tqdm
+    - pip:
+        - kaleido
+        - colab_ssh
+        - gradio
+        - faiss-cpu
+        - pinecone-client
+        - pdfminer-six
+        - sentence-transformers
+        - torch
+        - langchain
+        - python-dotenv
