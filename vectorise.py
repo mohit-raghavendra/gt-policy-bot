@@ -35,9 +35,8 @@ class Vectorizer:
         return embeddings_flattened
 
     def embed_docs(self, df: pd.DataFrame, data_col: str) -> pd.DataFrame:
-        embeddings = self.get_embeddings(df, data_col)
+        embeddings = self.get_embeddings(df, data_col) 
         df["embeddings"] = embeddings
-
         return df
 
 
@@ -69,3 +68,4 @@ def run_vectorizer(configFilePath="config.yml"):
 
 if __name__ == "__main__":
     run_vectorizer()
+
