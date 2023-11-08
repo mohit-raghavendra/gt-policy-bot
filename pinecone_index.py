@@ -8,8 +8,10 @@ import pandas as pd
 from langchain.document_loaders import DataFrameLoader
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores.pinecone import Pinecone
-
 from typing import List
+
+from dotenv import load_dotenv
+from pathlib import Path
 
 
 class PinceconeIndex:
@@ -20,6 +22,11 @@ class PinceconeIndex:
     def connect_index(self, embedding_dimension: int,
                       delete_existing: bool = False):
         index_name = self.index_name
+
+        # load pinecone env variables within Google Colab
+        if (os.getenv('PINECONE_KEY') == None or  os.getenv('PINECONE_ENV')==None):
+          dotenv_path = Path('/content/gt-policy-bot/config.env')
+          load_dotenv(dotenv_path=dotenv_path)
 
         pinecone.init(
             api_key=os.getenv('PINECONE_KEY'),

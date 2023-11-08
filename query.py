@@ -2,8 +2,8 @@ import yaml
 
 import gradio as gr
 
-from vectorise import Vectorizer
-from index import VectorDB
+from pinecone_index import PinceconeIndex
+
 
 TOP_K = 5
 
@@ -16,33 +16,16 @@ print(config)
 data_path = config['paths']['data_path']
 project = config['paths']['project']
 
-vectorizer = Vectorizer(config['sentence-transformers']['model-name'])  
-# query = "Latest revision data of the student code of conduct"
+index_name = config['pinecone']['index-name']
+embedding_model = config['sentence-transformers']['model-name']
+embedding_dimension = config['sentence-transformers'][
+    'embedding-dimension']
 
-vector_db = VectorDB(config['pinecone']['index-name'])
-vector_db.connect_index(config['pinecone']['api-key'], 
-                        config['pinecone']['environment'], 
-                        config['sentence-transformers']['embedding-dimension'], 
-                        False)
+index = PinceconeIndex(index_name, embedding_model)
+index.connect_index(embedding_dimension, False)
 
-
-def run_query(query: str):
-    print(query)
-    query_embedding = vectorizer.get_query_embedding(query).tolist()
-    closest_documents= vector_db.query([query_embedding], top_k=TOP_K)
-    return closest_documents
-
-    # demo = gr.Interface(
-    #     fn=run_query, 
-    #     inputs="text", 
-    #     outputs=["text"]*TOP_K,
-    #     title="Code of Conduct Search",
-    #     description="Search for code of conduct snippets using semantic search."
-    # )
-
-    # demo.launch() 
-
-
-# if __name__ == '__main__':
+def run_query(query: str, top_k=TOP_K):
+    res = index.query(query, top_k=top_k)
+    return res
 
       
