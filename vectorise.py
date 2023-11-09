@@ -4,8 +4,6 @@ import yaml
 import numpy as np
 import pandas as pd
 
-from typing import List
-
 from sentence_transformers import SentenceTransformer
 
 BATCH_SIZE = 2
@@ -24,7 +22,7 @@ class Vectorizer:
         num_docs = len(docs)
         embeddings = []
         for i in tqdm.tqdm(range(0, num_docs, self.batch_size)):
-            docs_batch = docs[i: i+self.batch_size].to_list()
+            docs_batch = docs[i: i + self.batch_size].to_list()
             vectors_batch = self.model.encode(docs_batch).tolist()
             embeddings.append(vectors_batch)
 
@@ -37,29 +35,31 @@ class Vectorizer:
         embeddings = self.get_embeddings(df, data_col)
         df['embeddings'] = embeddings
         
-        return df   
+        return df
 
-if __name__ == '__main__':
-    config_path = 'config.yml'
-    with open('config.yml', 'r') as file:
-        config = yaml.safe_load(file)
+    def run(self, configFilePath="config.yml"):
+        with open(configFilePath, 'r') as file:
+            config = yaml.safe_load(file)
+        print("Config File Loaded ...")
+        print(config)
 
-    print(config)
+        data_path = config['paths']['data_path']
+        project = config['paths']['project']
+        format = '.csv'
 
-    data_path = config['paths']['data_path']
-    project = config['paths']['project']
-    format = '.csv'
+        data_col_name = 'chunks'
+        df = pd.read_csv(data_path + project + format)
+        df.drop(labels=['Unnamed: 0'], axis=1, inplace=True)
 
-    data_col_name = 'chunks'
-    df = pd.read_csv(data_path + project + format)
-    df.drop(labels=['Unnamed: 0'], axis=1, inplace=True)
+        vectorizer = Vectorizer(config['sentence-transformers']['model-name'])
+        df_embeddings = vectorizer.embed_docs(df, data_col_name)
+        print("Creation of embedding completed ...")
+        print(df_embeddings.head())
 
-    vectorizer = Vectorizer(config['sentence-transformers']['model-name'])
-    df_embeddings = vectorizer.embed_docs(df, data_col_name)
-    print(df_embeddings.head())
+        file_path_embedding = data_path + project + '_embedding' + format
+        df_embeddings.to_csv(file_path_embedding)
 
-    file_path_embedding = data_path+project+'_embedding'+format
-    df_embeddings.to_csv(file_path_embedding)
-
-    df_read = pd.read_csv(file_path_embedding, index_col=0)
-    assert len(df_read) == len(df_embeddings)
+        df_read = pd.read_csv(file_path_embedding, index_col=0)
+        assert len(df_read) == len(df_embeddings)
+        print(file_path_embedding + "created ...")
+    
