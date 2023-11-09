@@ -47,6 +47,12 @@ class PinceconeIndex:
         docs = loader.load()
         Pinecone.from_documents(docs, self._embeddingModel,
                                 index_name=self.index_name)
+    
+    def get_embedding_model(self):
+        return self._embeddingModel
+    
+    def get_index_name(self):
+        return self.index_name
 
     def query(self, query: str, top_k: int = 5) -> List[str]:
         docsearch = Pinecone.from_existing_index(self.index_name,
