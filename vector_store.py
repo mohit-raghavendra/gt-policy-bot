@@ -38,7 +38,6 @@ class VectorStore:
         end_time = time.time()
         print(f'Indexing took {end_time - start_time} seconds')
 
-        index = PinceconeIndex(index_name, embedding_model)
-        vectorstore = Pinecone(index, embedding_model, "text")
+        vectorstore = Pinecone.from_existing_index(index_name, index.get_embedding_model())
 
         return vectorstore
