@@ -2,12 +2,28 @@ import yaml
 
 import gradio as gr
 
+from typing import List
+
 from llm_client import PalmClient
 from pinecone_index import PinceconeIndex
-from utils.llm_client import PalmClient
-from utils.templates import format_prompt
 
+SYSTEM_MESSAGE = 'Give a precise answer to the question based on only the \
+            context and evidence and do not be verbose.'
 TOP_K = 2
+
+
+def format_prompt(question: str, evidence: List[str]):
+    evidence_string = ''
+    for i, ev in enumerate(evidence):
+        evidence_string.join(f'\n Evidence {i+1}: {ev}')
+
+    content = f"{SYSTEM_MESSAGE} \
+              \n ### Question:{question} \
+              \n ### Evidence: {evidence_string} \
+              \n ### Response:"
+
+    return content
+
 
 if __name__ == '__main__':
 
