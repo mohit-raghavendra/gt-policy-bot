@@ -7,15 +7,15 @@ from typing import List
 from llm_client import PalmClient
 from pinecone_index import PinceconeIndex
 
-SYSTEM_MESSAGE = 'Give a precise answer to the question based on only the \
-            context and evidence and do not be verbose.'
+SYSTEM_MESSAGE = "Give a precise answer to the question based on only the \
+            context and evidence and do not be verbose."
 TOP_K = 2
 
 
 def format_prompt(question: str, evidence: List[str]):
-    evidence_string = ''
+    evidence_string = ""
     for i, ev in enumerate(evidence):
-        evidence_string.join(f'\n Evidence {i+1}: {ev}')
+        evidence_string.join(f"\n Evidence {i+1}: {ev}")
 
     content = f"{SYSTEM_MESSAGE} \
               \n ### Question:{question} \
@@ -25,21 +25,19 @@ def format_prompt(question: str, evidence: List[str]):
     return content
 
 
-if __name__ == '__main__':
-
-    config_path = 'config.yml'
-    with open('config.yml', 'r') as file:
+if __name__ == "__main__":
+    config_path = "config.yml"
+    with open("config.yml", "r") as file:
         config = yaml.safe_load(file)
 
     print(config)
 
-    data_path = config['paths']['data_path']
-    project = config['paths']['project']
+    data_path = config["paths"]["data_path"]
+    project = config["paths"]["project"]
 
-    index_name = config['pinecone']['index-name']
-    embedding_model = config['sentence-transformers']['model-name']
-    embedding_dimension = config['sentence-transformers'][
-        'embedding-dimension']
+    index_name = config["pinecone"]["index-name"]
+    embedding_model = config["sentence-transformers"]["model-name"]
+    embedding_dimension = config["sentence-transformers"]["embedding-dimension"]
 
     index = PinceconeIndex(index_name, embedding_model)
     index.connect_index(embedding_dimension, False)
@@ -55,9 +53,8 @@ if __name__ == '__main__':
 
         return final_output
 
-    context_outputs = [gr.Textbox(label=f'Evidence {i+1}')
-                       for i in range(TOP_K)]
-    result_output = [gr.Textbox(label='Answer')]
+    context_outputs = [gr.Textbox(label=f"Evidence {i+1}") for i in range(TOP_K)]
+    result_output = [gr.Textbox(label="Answer")]
 
     gradio_outputs = result_output + context_outputs
     gradio_inputs = gr.Textbox(placeholder="Enter your question...")
@@ -70,7 +67,7 @@ if __name__ == '__main__':
         title="GT Student Code of Conduct Bot",
         description="Get LLM-powered answers to questions about the \
             Georgia Tech Student Code of Conduct. The evidences are exerpts\
-                from the Code of Conduct."
+                from the Code of Conduct.",
     )
 
     demo.launch()

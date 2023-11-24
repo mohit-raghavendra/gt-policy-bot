@@ -18,8 +18,8 @@ class DocumentParser:
         # print(self.text)
 
     def _clean_text(self):
-        self.text = ' '.join(self.text.split())
-        self.text = re.sub(r'[^a-zA-Z0-9.!?-]', ' ', self.text)
+        self.text = " ".join(self.text.split())
+        self.text = re.sub(r"[^a-zA-Z0-9.!?-]", " ", self.text)
 
     def _chunk_text(self):
         chunk_curr = ""
