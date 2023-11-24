@@ -10,7 +10,7 @@ class PalmClient:
     def connect_client(self):
         if (not os.getenv('GOOGLE_PALM_KEY')):
             raise Exception('Please set your Google MakerSuite API key')
-        
+
         api_key = os.getenv('GOOGLE_PALM_KEY')
         palm.configure(api_key=api_key)
 
@@ -22,7 +22,7 @@ class PalmClient:
             {"category": "HARM_CATEGORY_MEDICAL", "threshold": 4},
             {"category": "HARM_CATEGORY_DANGEROUS", "threshold": 4}
             ]
-        
+
         defaults = {
             'model': 'models/text-bison-001',
             'temperature': 0.7,
@@ -35,7 +35,6 @@ class PalmClient:
         }
 
         self.defaults = defaults
-        print(self.defaults)
 
     def generate_text(self, prompt: str) -> str:
         response = palm.generate_text(**self.defaults, prompt=prompt)

@@ -30,13 +30,11 @@ if __name__ == '__main__':
     palm_client = PalmClient()
 
     def get_answer(question: str):
-        print(question)
         evidence = index.query(question, top_k=TOP_K)
         prompt_with_evidence = format_prompt(question, evidence)
-
+        print(prompt_with_evidence)
         response = palm_client.generate_text(prompt_with_evidence)
         final_output = [response] + evidence
-        print(len(final_output))
 
         return final_output
 
@@ -50,6 +48,7 @@ if __name__ == '__main__':
     demo = gr.Interface(
         fn=get_answer,
         inputs=gradio_inputs,
+        # outputs=[gr.Textbox(label=f'Document {i+1}') for i in range(TOP_K)],
         outputs=gradio_outputs,
         title="GT Student Code of Conduct Bot",
         description="Get LLM-powered answers to questions about the \

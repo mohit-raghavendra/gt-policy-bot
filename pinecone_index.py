@@ -76,7 +76,6 @@ if __name__ == '__main__':
         'embedding-dimension']
     delete_existing = True
 
-
     if config['paths']['chunking'] == 'manual':
         print("Using manual chunking")
         file_path_embedding = config['paths']['manual_chunk_file']
