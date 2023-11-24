@@ -2,6 +2,7 @@ import yaml
 
 import gradio as gr
 
+from llm_client import PalmClient
 from pinecone_index import PinceconeIndex
 from utils.llm_client import PalmClient
 from utils.templates import format_prompt
