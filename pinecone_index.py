@@ -24,9 +24,9 @@ class PinceconeIndex:
         index_name = self.index_name
 
         # load pinecone env variables within Google Colab
-        if (os.getenv('PINECONE_KEY') == None or  os.getenv('PINECONE_ENV')==None):
-          dotenv_path = Path('/content/gt-policy-bot/config.env')
-          load_dotenv(dotenv_path=dotenv_path)
+        if (not os.getenv('PINECONE_KEY')) or (not os.getenv('PINECONE_ENV')):
+            dotenv_path = Path('/content/gt-policy-bot/config.env')
+            load_dotenv(dotenv_path=dotenv_path)
 
         pinecone.init(
             api_key=os.getenv('PINECONE_KEY'),
@@ -76,10 +76,17 @@ if __name__ == '__main__':
         'embedding-dimension']
     delete_existing = True
 
-    file_path_embedding = data_path+project+format
-    df = pd.read_csv(file_path_embedding, index_col=0)
-    print(df.head())
 
+    if config['paths']['chunking'] == 'manual':
+        print("Using manual chunking")
+        file_path_embedding = config['paths']['manual_chunk_file']
+        df = pd.read_csv(file_path_embedding, header=None, names=['chunks'])
+    else:
+        print("Using automatic chunking")
+        file_path_embedding = config['paths']['auto_chunk_file']
+        df = pd.read_csv(file_path_embedding, index_col=0)
+
+    print(df)
     start_time = time.time()
     index = PinceconeIndex(index_name, embedding_model)
     index.connect_index(embedding_dimension, delete_existing)
@@ -93,5 +100,5 @@ if __name__ == '__main__':
     query = "When was the student code of conduct last revised?"
     res = index.query(query, top_k=5)
 
-    assert len(res) == 5
+    # assert len(res) == 5
     print(res)

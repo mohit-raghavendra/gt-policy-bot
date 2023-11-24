@@ -2,9 +2,11 @@ import yaml
 
 import gradio as gr
 
+from llm_client import PalmClient
 from pinecone_index import PinceconeIndex
+from utils.templates import format_prompt
 
-TOP_K = 5
+TOP_K = 2
 
 if __name__ == '__main__':
 
@@ -25,17 +27,34 @@ if __name__ == '__main__':
     index = PinceconeIndex(index_name, embedding_model)
     index.connect_index(embedding_dimension, False)
 
-    def run_query(query: str):
-        res = index.query(query, top_k=5)
-        return res
+    palm_client = PalmClient()
+
+    def get_answer(question: str):
+        print(question)
+        evidence = index.query(question, top_k=TOP_K)
+        prompt_with_evidence = format_prompt(question, evidence)
+
+        response = palm_client.generate_text(prompt_with_evidence)
+        final_output = [response] + evidence
+        print(len(final_output))
+
+        return final_output
+
+    context_outputs = [gr.Textbox(label=f'Evidence {i+1}')
+                       for i in range(TOP_K)]
+    result_output = [gr.Textbox(label='Answer')]
+
+    gradio_outputs = result_output + context_outputs
+    gradio_inputs = gr.Textbox(placeholder="Enter your question...")
 
     demo = gr.Interface(
-        fn=run_query,
-        inputs=gr.Textbox(placeholder="Enter your question..."),
-        outputs=[gr.Textbox(label=f'Document {i+1}') for i in range(TOP_K)],
+        fn=get_answer,
+        inputs=gradio_inputs,
+        outputs=gradio_outputs,
         title="GT Student Code of Conduct Bot",
         description="Get LLM-powered answers to questions about the \
-            Georgia Tech Student Code of Conduct."
+            Georgia Tech Student Code of Conduct. The evidences are exerpts\
+                from the Code of Conduct."
     )
 
     demo.launch()
