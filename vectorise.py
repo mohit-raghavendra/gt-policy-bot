@@ -8,6 +8,7 @@ from sentence_transformers import SentenceTransformer
 
 BATCH_SIZE = 2
 
+
 class Vectorizer:
     def __init__(self, model_name: str):
         self.model_name = model_name

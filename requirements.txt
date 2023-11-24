@@ -8,3 +8,4 @@ langchain
 gradio
 python-dotenv
 faiss-cpu
+google-generativeai
