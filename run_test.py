@@ -22,10 +22,20 @@ def get_answer(model, query, tokenizer, context, question, max_new_tokens, tempe
   outputs.sequences, outputs.scores, normalize_logits=True
   )
   transition_scores = transition_scores.cpu()
+  hall = 0
+  tot = 0
+  output = ""
   for tok, score in zip(generated_tokens[0], transition_scores[0]):
     # | token | token string | logits | probability
-    print(f"| {tok:5d} | {tokenizer.decode(tok):8s} | {score.numpy():.3f} | {np.exp(score.numpy()):.2%}")
-  return inp, generated_tokens
+    # print(f"| {tok:5d} | {tokenizer.decode(tok):8s} | {score.numpy():.3f} | {np.exp(score.numpy()):.2%}")
+    output += tokenizer.decode(tok)
+    prob = np.exp(score.numpy())
+    tot += 1
+    if prob <= 0.50:
+      hall += 1
+  print(hall / tot)
+  full_context += "\nHaalucination score: " + str(hall / tot)
+  return output, full_context
 
 def get_answer_without_evidence(pipe, question):
 	content = f'Answer the following question. {question}'
@@ -55,7 +65,7 @@ def run_test_with_evidence(test, model, query, tokenizer):
                                        max_new_tokens, temperature, num_evidence)
 		with open(output_file, "a+") as output:
 			output.write(f'\n\n\n Question {number} \n\n LLM Input:\n\n {llm_input} \n\n LLM Output:\n\n{llm_output}')
-		break
+
 	end = datetime.now()
 	total_time = str((end-start).total_seconds())
 	with open(output_file, "a+") as output:
