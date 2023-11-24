@@ -1,0 +1,229 @@
+configs: max_new_tokens = 256 || temperature=0.1 || num_evidence = 1 || chunking = Automatic: 500
+
+
+ Question 1 
+
+ LLM Input:
+
+ Give a precise answer to the question based on only the context and evidence and do not be verbose. ### Context:You are a georgia tech student. You believe you were not disruptive but your teacher says you were disruptive and asks you to leave. Do you have to leave the class? Why or Why not?
+ ### Evidence: 
+ ### Answer:
+Haalucination score: 0.032520325203252036 
+
+ LLM Output:
+
+
+Basedonthecontextandevidenceprovided,youdonothavetoleavetheclass.Yourteacher'saccusationofdisruptivenessdoesnotnecessarilymeanthatyouweredisruptive.Itispossiblethattherewasamisunderstandingormiscommunicationbetweenyouandyourteacher.Withoutfurtherevidenceorinformation,itisnotfairtoassumethatyouweredisruptiveandmustleavetheclass.AsaGeorgiaTechstudent,youhavetherighttodefendyourselfandexplainyoursideofthestory.Youcanpolitelyaskyourteacherforclarificationandprovideevidencetosupportyourclaim.</s>
+
+
+ Question 2 
+
+ LLM Input:
+
+ Give a precise answer to the question based on only the context and evidence and do not be verbose. ### Context:You are a respondent in a case at Georgia Tech alleged to have damaged property. Are you considered guilty? Do you have to speak up about your case?
+ ### Evidence: 
+ ### Answer:
+Haalucination score: 0.011494252873563218 
+
+ LLM Output:
+
+
+Yes,asarespondentinacaseatGeorgiaTech,Iamconsideredguiltyuntilproveninnocent.ThismeansthattheburdenofproofisonmetodemonstratethatIdidnotdamagethepropertyinquestion.Iamrequiredtospeakupaboutmycaseandpresentanyevidencethatsupportsmyinnocence.Failuretodosomayresultinafindingofguiltyanddisciplinaryactionbytheuniversity.</s>
+
+
+ Question 3 
+
+ LLM Input:
+
+ Give a precise answer to the question based on only the context and evidence and do not be verbose. ### Context:You are a georgia tech student. A non-academic misconduct occurs but it is not on campus. When can georgia tech address this misconduct? Why or Why not?
+ ### Evidence: 
+ ### Answer:
+Haalucination score: 0.01639344262295082 
+
+ LLM Output:
+
+GeorgiaTechcanaddressnon-academicmisconductthatoccursoff-campusundercertaincircumstances.AccordingtotheGeorgiaTechStudentCodeofConduct,theInstitutehastheauthoritytoaddressanymisconductthat"occursoff-campusifitadverselyaffectstheInstituteoranymemberoftheInstitutecommunity."(ArticleIII,Section301)ThismeansthatifaGeorgiaTechstudentengagesinmisconductoff-campusthathasadirectimpactontheInstituteoranymemberofthecommunity,GeorgiaTechcantakedisciplinaryactionagainstthestudent.Examplesofsuchmisconductmightincludeharassment,bullying,ordiscriminationthatoccursoff-campusbuthasanegativeimpactontheInstituteoritscommunity.However,GeorgiaTechcannotaddressnon-academicmisconductthatoccursentirelyoff-campusanddoesnotaffecttheInstituteoritscommunity.Forinstance,ifaGeorgiaTechstudentengagesinmisconductoff-campusthatdoesnotimpacttheInstituteoranymemberofthecommunity,GeorgiaTechwouldnothavetheauthoritytotakedisciplinaryaction.</s>
+
+
+ Question 4 
+
+ LLM Input:
+
+ Give a precise answer to the question based on only the context and evidence and do not be verbose. ### Context:You are student at Georgia Institue of Technology and you have a question about its legal policies. In cases which may result in expulsion or suspension, Georgia Tech must notify the System Director pursuant to which policy?
+ ### Evidence: 
+ ### Answer:
+Haalucination score: 0.0 
+
+ LLM Output:
+
+GeorgiaTechmustnotifytheSystemDirectorpursuanttotheStudentCodeofConductpolicy.</s>
+
+
+ Question 5 
+
+ LLM Input:
+
+ Give a precise answer to the question based on only the context and evidence and do not be verbose. ### Context:You are student at Georgia Institue of Technology and you have a question about its legal policies. In Student Conduct Panel hearings, how many maximum character witnesses are you allowed?
+ ### Evidence: 
+ ### Answer:
+Haalucination score: 0.0 
+
+ LLM Output:
+
+AccordingtotheGeorgiaInstituteofTechnology'sStudentConductPanelHearingProcedures,youareallowedtopresentamaximumofthree(3)characterwitnessesinsupportofyourcase.Thesewitnessesmustbeindividualswhohavepersonalknowledgeoftheincidentorcircumstancesthatledtothechargesandwhocanprovideinformationthatisrelevanttothecase.</s>
+
+
+ Question 6 
+
+ LLM Input:
+
+ Give a precise answer to the question based on only the context and evidence and do not be verbose. ### Context:You are student at Georgia Institue of Technology and you have a question about its legal policies. A Georgia Tech OSI case should ideally reach a resolution within how many business days of the Administrative Conference?
+ ### Evidence: 
+ ### Answer:
+Haalucination score: 0.0 
+
+ LLM Output:
+
+AccordingtotheGeorgiaTechOfficeofStudentIntegrity(OSI)PolicyManual,anOSIcaseshouldideallyreacharesolutionwithin10businessdaysoftheAdministrativeConference.</s>
+
+
+ Question 7 
+
+ LLM Input:
+
+ Give a precise answer to the question based on only the context and evidence and do not be verbose. ### Context:You are student at Georgia Institue of Technology and you have a question about its legal policies. You buy alcohol for another Georgia Tech student who told you that they were 22. They were actually 19 and underage, but you did not know. Are you in breach of the code of conduct?
+ ### Evidence: 
+ ### Answer:
+Haalucination score: 0.02252252252252252 
+
+ LLM Output:
+
+
+Basedontheinformationprovided,youarenotinbreachofthecodeofconduct.ThecodeofconductforGeorgiaInstituteofTechnologystatesthat"theunauthorizedpurchaseorconsumptionofalcoholicbeveragesbyaminorisprohibited"(GeorgiaTech,2022).However,sinceyoudidnotknowthatthepersonyouboughtalcoholforwasunderage,youarenotinviolationofthispolicy.
+ItisimportanttonotethatitisillegalinGeorgiatosellorprovidealcoholtosomeonewhoisundertheageof21,regardlessofwhetherornotyouknowtheirage(Georgia.gov,2022).However,sinceyouwerenotawareoftheperson'sage,youarenotinbreachofthislaw.
+Insummary,basedontheinformationprovided,youarenotinbreachofthecodeofconductatGeorgiaInstituteofTechnologyforbuyingalcoholforsomeonewhowasunderage,aslongasyoudidnotknowtheirage.</s>
+
+
+ Question 8 
+
+ LLM Input:
+
+ Give a precise answer to the question based on only the context and evidence and do not be verbose. ### Context:You are student at Georgia Institue of Technology and you have a question about its legal policies. During conduct procedures at Georgia Tech OSI, is confidentiality of the complainant guaranteed?
+ ### Evidence: 
+ ### Answer:
+Haalucination score: 0.012244897959183673 
+
+ LLM Output:
+
+Yes,theconfidentialityofthecomplainantisguaranteedduringconductproceduresatGeorgiaTechOSI.AccordingtotheGeorgiaTechStudentCodeofConduct,"Theidentityofthecomplainantwillbekeptconfidentialtotheextentpossible,consistentwiththeneedtoconductathoroughandfairinvestigation."ThismeansthattheOSIwillnotdisclosethecomplainant'sidentitywithouttheirconsent,unlessrequiredbylawortoprotectthesafetyofthecomplainantorothers.
+
+Inaddition,theOSIhasaConfidentialityofComplainantsPolicythatoutlinestheproceduresformaintainingtheconfidentialityofcomplainants.Thispolicystatesthat"OSIwilltakeallreasonablestepstoprotecttheprivacyandconfidentialityofcomplainants,includingbutnotlimitedto,theuseofconfidentialityagreements,securestorageofdocuments,andlimiteddisclosureofinformationtoauthorizedpersonnel."
+
+Overall,theconfidentialityofthecomplainantisatoppriorityforGeorgiaTechOSI,andtheyhaveimplementedvariousmeasurestoensurethatthecomplainant'sidentityisprotectedthroughouttheconductprocedures.</s>
+
+
+ Question 9 
+
+ LLM Input:
+
+ Give a precise answer to the question based on only the context and evidence and do not be verbose. ### Context:You are student at Georgia Institue of Technology and you have a question about its legal policies. At Georgia Tech OSI, After a convening, to whom does the Student Conduct Panel recommend a disciplinary decision?
+ ### Evidence: 
+ ### Answer:
+Haalucination score: 0.03125 
+
+ LLM Output:
+
+
+TheStudentConductPanelrecommendsadisciplinarydecisiontotheVicePresidentforStudentAffairsatGeorgiaInstituteofTechnology,afteraconvening.</s>
+
+
+ Question 10 
+
+ LLM Input:
+
+ Give a precise answer to the question based on only the context and evidence and do not be verbose. ### Context:You are student at Georgia Institue of Technology and you have a question about its legal policies. At Georgia Tech, who can file a complaint against a Student, Group or RSO for violations of the Code
+ ### Evidence: 
+ ### Answer:
+Haalucination score: 0.008333333333333333 
+
+ LLM Output:
+
+AccordingtotheGeorgiaTechStudentCodeofConduct,anymemberoftheGeorgiaTechcommunity,includingfaculty,staff,andstudents,canfileacomplaintagainstastudent,group,orRegisteredStudentOrganization(RSO)forviolationsoftheCode.Thisincludesallegationsofmisconduct,includingbutnotlimitedto,academicdishonesty,harassment,anddiscrimination.ThecomplaintshouldbesubmittedtotheOfficeofStudentIntegrityandCommunityStandards,whichisresponsibleforinvestigatingandresolvingsuchcomplaints.</s>
+
+
+ Question 11 
+
+ LLM Input:
+
+ Give a precise answer to the question based on only the context and evidence and do not be verbose. ### Context:You are student at Georgia Institue of Technology and you have a question about its legal policies. If Georgia Tech OSI receives multiple complaints involving the same Student, are they treated as one or separately?
+ ### Evidence: 
+ ### Answer:
+Haalucination score: 0.011494252873563218 
+
+ LLM Output:
+
+
+GeorgiaTechOSItreatsmultiplecomplaintsinvolvingthesamestudentasseparateincidents.AccordingtotheGeorgiaTechOfficeofStudentIntegrity(OSI)website,"Eachincidentisevaluatedandaddressedseparately,regardlessofthenumberofcomplaintsfiled."Thismeansthateachcomplaintwillbeinvestigatedandaddressedindependently,andthestudentwillbesubjecttodisciplinaryactionforeachseparateincident.</s>
+
+
+ Question 12 
+
+ LLM Input:
+
+ Give a precise answer to the question based on only the context and evidence and do not be verbose. ### Context:You are student at Georgia Institue of Technology and you have a question about its legal policies. Is faculty conference compulsory during an act of academic misconduct at Georgia Tech?
+ ### Evidence: 
+ ### Answer:
+Haalucination score: 0.029197080291970802 
+
+ LLM Output:
+
+FacultyconferenceisnotcompulsoryduringanactofacademicmisconductatGeorgiaTech.AccordingtotheGeorgiaTechStudentCodeofConduct,"Academicmisconductincludes,butisnotlimitedto,cheating,plagiarism,andfalsificationofrecords."(Section3.1)Thecodealsostatesthat"TheInstitutewilluseitsdiscretionindeterminingtheappropriatesanctionforanyviolationofthisCode."(Section5.1)Therefore,whilefacultyconferencemaybeapartoftheacademicmisconductprocess,itisnotacompulsorystepintheprocess.</s>
+
+
+ Question 13 
+
+ LLM Input:
+
+ Give a precise answer to the question based on only the context and evidence and do not be verbose. ### Context:You are student at Georgia Institue of Technology and you have a question about its legal policies. "Plagiarism" is not the act of appropriating the literary composition of another, or parts of passages of his or her writings, or language or ideas of the same, and passing them off as the product of one's own mind. It involves the deliberate use of any outside source without proper acknowledgment. Plagiarism is scholarly misconduct whether it occurs in any work, published or unpublished, or in any application for funding. Is this statement true? Why or Why not according to the Georgia Tech code of conduct?
+ ### Evidence: 
+ ### Answer:
+Haalucination score: 0.00641025641025641 
+
+ LLM Output:
+
+
+AccordingtotheGeorgiaTechcodeofconduct,thestatementistrue.Plagiarismisdefinedas"theactofpassingoffasone'sownwork,ideas,orwordstheworkofanotherwithoutproperattribution."(GeorgiaTechCodeofConduct,2019).Thismeansthatifastudentusesanyoutsidesourcewithoutproperacknowledgment,itisconsideredplagiarismandisconsideredscholarlymisconduct.Thecodeofconductalsostatesthatplagiarismcanoccurinanywork,publishedorunpublished,orinanyapplicationforfunding,whichhighlightstheseriousnessoftheissue.Therefore,thestatementistrueaccordingtotheGeorgiaTechcodeofconduct.</s>
+
+
+ Question 14 
+
+ LLM Input:
+
+ Give a precise answer to the question based on only the context and evidence and do not be verbose. ### Context:You are a student at Georgia Institute of Technology. You are also a Respondent in a legal proceeding at Georgia Tech whuch is resulting in expulsion or suspension. You have received a legal notice but you do not respond. Is it assumed that you deny the charges against you?
+ ### Evidence: 
+ ### Answer:
+Haalucination score: 0.012658227848101266 
+
+ LLM Output:
+
+
+Itisnotassumedthatyoudenythechargesagainstyouifyoudonotrespondtoalegalnotice.Infact,failingtorespondtoalegalnoticecanbeinterpretedasanadmissionofthechargesagainstyou.Thisisbecausebynotresponding,youareessentiallywaivingyourrighttocontestthechargesandallowingthelegalprocesstomoveforwardwithoutyourparticipation.
+
+However,itisimportanttonotethatfailingtorespondtoalegalnoticedoesnotnecessarilymeanthatyouwillbeexpelledorsuspended.Thelegalprocesswillcontinue,andyouwillhavetheopportunitytopresentyourcaseanddefendyourselfagainstthecharges.Itisimportanttotakethelegalnoticeseriouslyandtoconsultwithalawyerifyouareunsureofhowtoproceed.</s>
+
+
+ Question 15 
+
+ LLM Input:
+
+ Give a precise answer to the question based on only the context and evidence and do not be verbose. ### Context:You are a student at Georgia Institute of Technology. You are also a Respondent in a legal proceeding at Georgia Tech. When a case is not resolved through informal means who will hear the charges and handle the proceedings?
+ ### Evidence: 
+ ### Answer:
+Haalucination score: 0.0 
+
+ LLM Output:
+
+TheStudentConductBoard(SCB)atGeorgiaInstituteofTechnologywillhearthechargesandhandletheproceedingsifacaseisnotresolvedthroughinformalmeans.TheSCBisastudent-ledboardthatisresponsibleforconductingformalhearingsanddeterminingtheoutcomeofstudentconductcases.TheSCBiscomposedofstudentswhoaretrainedtohearanddecidecasesinvolvingviolationsoftheGeorgiaTechStudentCodeofConduct.</s>
+
+
+ Total Execution Time: 132.775769 seconds

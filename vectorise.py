@@ -37,29 +37,32 @@ class Vectorizer:
         
         return df
 
-    def run(self, configFilePath="config.yml"):
-        with open(configFilePath, 'r') as file:
-            config = yaml.safe_load(file)
-        print("Config File Loaded ...")
-        print(config)
 
-        data_path = config['paths']['data_path']
-        project = config['paths']['project']
-        format = '.csv'
+def run_vectorizer(configFilePath="config.yml"):
+    with open(configFilePath, 'r') as file:
+        config = yaml.safe_load(file)
+    print("Config File Loaded ...")
+    print(config)
 
-        data_col_name = 'chunks'
-        df = pd.read_csv(data_path + project + format)
-        df.drop(labels=['Unnamed: 0'], axis=1, inplace=True)
+    data_path = config['paths']['data_path']
+    project = config['paths']['project']
+    format = '.csv'
 
-        vectorizer = Vectorizer(config['sentence-transformers']['model-name'])
-        df_embeddings = vectorizer.embed_docs(df, data_col_name)
-        print("Creation of embedding completed ...")
-        print(df_embeddings.head())
+    data_col_name = 'chunks'
+    df = pd.read_csv(data_path + project + format)
 
-        file_path_embedding = data_path + project + '_embedding' + format
-        df_embeddings.to_csv(file_path_embedding)
+    vectorizer = Vectorizer(config['sentence-transformers']['model-name'])
+    df_embeddings = vectorizer.embed_docs(df, data_col_name)
+    print("Creation of embedding completed ...")
+    print(df_embeddings.head())
 
-        df_read = pd.read_csv(file_path_embedding, index_col=0)
-        assert len(df_read) == len(df_embeddings)
-        print(file_path_embedding + "created ...")
-    
+    file_path_embedding = data_path + project + '_embedding' + format
+    df_embeddings.to_csv(file_path_embedding)
+
+    df_read = pd.read_csv(file_path_embedding, index_col=0)
+    assert len(df_read) == len(df_embeddings)
+    print(file_path_embedding + "created ...")
+
+
+if __name__ == "__main__":
+    run_vectorizer()
