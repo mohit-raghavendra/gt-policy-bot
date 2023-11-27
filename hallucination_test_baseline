@@ -1,0 +1,156 @@
+configs: max_new_tokens = 256 || temperature=1 || num_evidence = 0 || chunking = Manual: 1116configs: max_new_tokens = 128 || temperature=1 || num_evidence = 0 || chunking = Manual: 1116
+
+
+ Question 1 
+
+ LLM Input:
+
+ Give a precise answer to the question and do not be verbose. Context: You are a georgia tech student. You believe you were not disruptive but your teacher says you were disruptive and asks you to leave. Do you have to leave the class? Why or Why not?
+ Answer:
+Hallucination Distance: 1.7767884880304337 
+
+ LLM Output:
+
+
+
+
+ Question 2 
+
+ LLM Input:
+
+ Give a precise answer to the question and do not be verbose. Context: You are a respondent in a case at Georgia Tech alleged to have damaged property. Are you considered guilty? Do you have to speak up about your case?
+ Answer:
+Hallucination Distance: 1.8297458291053772 
+
+ LLM Output:
+
+
+
+
+ Question 3 
+
+ LLM Input:
+
+ Give a precise answer to the question and do not be verbose. Context: You are a georgia tech student. A non-academic misconduct occurs but it is not on campus. When can georgia tech address this misconduct? Why or Why not?
+ Answer:
+Hallucination Distance: 0 
+
+ LLM Output:
+
+
+
+
+ Question 4 
+
+ LLM Input:
+
+ Give a precise answer to the question and do not be verbose. Context: You are student at Georgia Institue of Technology and you have a question about its legal policies. In cases which may result in expulsion or suspension, Georgia Tech must notify the System Director pursuant to which policy?
+ Answer:
+Hallucination Distance: 0 
+
+ LLM Output:
+
+
+
+
+ Question 5 
+
+ LLM Input:
+
+ Give a precise answer to the question and do not be verbose. Context: You are student at Georgia Institue of Technology and you have a question about its legal policies. In Student Conduct Panel hearings, how many maximum character witnesses are you allowed?
+ Answer:
+Hallucination Distance: 0 
+
+ LLM Output:
+
+
+
+
+ Question 6 
+
+ LLM Input:
+
+ Give a precise answer to the question and do not be verbose. Context: You are student at Georgia Institue of Technology and you have a question about its legal policies. A Georgia Tech OSI case should ideally reach a resolution within how many business days of the Administrative Conference?
+ Answer:
+Hallucination Distance: 1.948898121714592 
+
+ LLM Output:
+
+
+
+
+ Question 7 
+
+ LLM Input:
+
+ Give a precise answer to the question and do not be verbose. Context: You are student at Georgia Institue of Technology and you have a question about its legal policies. You buy alcohol for another Georgia Tech student who told you that they were 22. They were actually 19 and underage, but you did not know. Are you in breach of the code of conduct?
+ Answer:
+Hallucination Distance: 0 
+
+ LLM Output:
+
+
+
+
+ Question 8 
+
+ LLM Input:
+
+ Give a precise answer to the question and do not be verbose. Context: You are student at Georgia Institue of Technology and you have a question about its legal policies. During conduct procedures at Georgia Tech OSI, is confidentiality of the complainant guaranteed?
+ Answer:
+Hallucination Distance: 0 
+
+ LLM Output:
+
+
+
+
+ Question 9 
+
+ LLM Input:
+
+ Give a precise answer to the question and do not be verbose. Context: You are student at Georgia Institue of Technology and you have a question about its legal policies. At Georgia Tech OSI, After a convening, to whom does the Student Conduct Panel recommend a disciplinary decision?
+ Answer:
+Hallucination Distance: 0 
+
+ LLM Output:
+
+
+
+
+ Question 10 
+
+ LLM Input:
+
+ Give a precise answer to the question and do not be verbose. Context: You are student at Georgia Institue of Technology and you have a question about its legal policies. At Georgia Tech, who can file a complaint against a Student, Group or RSO for violations of the Code
+ Answer:
+Hallucination Distance: 2.0 
+
+ LLM Output:
+
+
+
+
+ Question 11 
+
+ LLM Input:
+
+ Give a precise answer to the question and do not be verbose. Context: You are student at Georgia Institue of Technology and you have a question about its legal policies. If Georgia Tech OSI receives multiple complaints involving the same Student, are they treated as one or separately?
+ Answer:
+Hallucination Distance: 0 
+
+ LLM Output:
+
+
+
+
+ Question 12 
+
+ LLM Input:
+
+ Give a precise answer to the question and do not be verbose. Context: You are student at Georgia Institue of Technology and you have a question about its legal policies. Is faculty conference compulsory during an act of academic misconduct at Georgia Tech?
+ Answer:
+Hallucination Distance: 0 
+
+ LLM Output:
+
