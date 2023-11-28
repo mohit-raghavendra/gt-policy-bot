@@ -1,7 +1,5 @@
 import yaml
 
-import gradio as gr
-
 from pinecone_index import PinceconeIndex
 
 
@@ -24,8 +22,7 @@ embedding_dimension = config['sentence-transformers'][
 index = PinceconeIndex(index_name, embedding_model)
 index.connect_index(embedding_dimension, False)
 
+
 def run_query(query: str, top_k=TOP_K):
     res = index.query(query, top_k=top_k)
     return res
-
-      
