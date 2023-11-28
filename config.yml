@@ -1,6 +1,9 @@
 paths:
   project: 'code_of_conduct_1'
   data_path: './data/code_of_conduct/'
+  chunking: 'manual'
+  auto_chunk_file: './data/code_of_conduct/code_of_conduct.csv'
+  manual_chunk_file: './data/code_of_conduct/code_of_conduct_manual.csv'
   
 pinecone:
   index-name: gt-code-of-conduct
