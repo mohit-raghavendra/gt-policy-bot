@@ -1,5 +1,7 @@
 import os
 import pinecone
+import time
+import yaml
 
 import pandas as pd
 
@@ -22,7 +24,7 @@ class PinceconeIndex:
         index_name = self.index_name
 
         # load pinecone env variables within Google Colab
-        if (os.getenv('PINECONE_KEY') == None or  os.getenv('PINECONE_ENV') == None):
+        if (not os.getenv('PINECONE_KEY')) or (not os.getenv('PINECONE_ENV')):
             dotenv_path = Path('/content/gt-policy-bot/config.env')
             load_dotenv(dotenv_path=dotenv_path)
 
@@ -50,7 +52,7 @@ class PinceconeIndex:
     
     def get_embedding_model(self):
         return self._embeddingModel
-    
+
     def get_index_name(self):
         return self.index_name
 
@@ -60,3 +62,48 @@ class PinceconeIndex:
         res = docsearch.similarity_search(query, k=top_k)
 
         return [doc.page_content for doc in res]
+
+
+if __name__ == '__main__':
+    config_path = 'config.yml'
+    with open('config.yml', 'r') as file:
+        config = yaml.safe_load(file)
+
+    print(config)
+
+    data_path = config['paths']['data_path']
+    project = config['paths']['project']
+    format = '.csv'
+
+    index_name = config['pinecone']['index-name']
+    embedding_model = config['sentence-transformers'][
+        'model-name']
+    embedding_dimension = config['sentence-transformers'][
+        'embedding-dimension']
+    delete_existing = True
+
+    if config['paths']['chunking'] == 'manual':
+        print("Using manual chunking")
+        file_path_embedding = config['paths']['manual_chunk_file']
+        df = pd.read_csv(file_path_embedding, header=None, names=['chunks'])
+    else:
+        print("Using automatic chunking")
+        file_path_embedding = config['paths']['auto_chunk_file']
+        df = pd.read_csv(file_path_embedding, index_col=0)
+
+    print(df)
+    start_time = time.time()
+    index = PinceconeIndex(index_name, embedding_model)
+    index.connect_index(embedding_dimension, delete_existing)
+    index.upsert_docs(df, 'chunks')
+    end_time = time.time()
+    print(f'Indexing took {end_time - start_time} seconds')
+
+    index = PinceconeIndex(index_name, embedding_model)
+    index.connect_index(embedding_dimension, delete_existing=False)
+
+    query = "When was the student code of conduct last revised?"
+    res = index.query(query, top_k=5)
+
+    # assert len(res) == 5
+    print(res)
