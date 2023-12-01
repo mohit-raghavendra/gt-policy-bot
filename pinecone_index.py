@@ -1,5 +1,7 @@
 import os
 import pinecone
+import time
+import yaml
 
 import pandas as pd
 
