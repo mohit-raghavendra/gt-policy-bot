@@ -69,4 +69,3 @@ def run_vectorizer(configFilePath="config.yml"):
 
 if __name__ == "__main__":
     run_vectorizer()
-
