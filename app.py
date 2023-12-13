@@ -4,19 +4,20 @@ import gradio as gr
 
 from typing import List
 
-from llm_client import PalmClient
+from llm_client import GeminiClient
 from pinecone_index import PinceconeIndex
 
 SYSTEM_MESSAGE = "Give a precise answer to the question based on only the \
             context and evidence and do not be verbose."
-TOP_K = 2
+TOP_K = 1
 
 
 def format_prompt(question: str, evidence: List[str]):
     evidence_string = ""
     for i, ev in enumerate(evidence):
-        evidence_string.join(f"\n Evidence {i+1}: {ev}")
+        evidence_string = evidence_string.join(f"\n Evidence {i+1}: {ev}")
 
+    print(f"evidence string - {evidence_string}")
     content = f"{SYSTEM_MESSAGE} \
               \n ### Question:{question} \
               \n ### Evidence: {evidence_string} \
@@ -42,13 +43,13 @@ if __name__ == "__main__":
     index = PinceconeIndex(index_name, embedding_model)
     index.connect_index(embedding_dimension, False)
 
-    palm_client = PalmClient()
+    gemini_client = GeminiClient()
 
     def get_answer(question: str):
         evidence = index.query(question, top_k=TOP_K)
         prompt_with_evidence = format_prompt(question, evidence)
         print(prompt_with_evidence)
-        response = palm_client.generate_text(prompt_with_evidence)
+        response = gemini_client.generate_text(prompt_with_evidence)
         final_output = [response] + evidence
 
         return final_output

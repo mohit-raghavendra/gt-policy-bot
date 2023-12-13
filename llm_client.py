@@ -1,41 +1,45 @@
 import os
 
-import google.generativeai as palm
+import google.generativeai as genai
 
 
-class PalmClient:
+class GeminiClient:
     def __init__(self):
         self.connect_client()
 
     def connect_client(self):
         if not os.getenv("GOOGLE_PALM_KEY"):
-            raise Exception("Please set your Google MakerSuite API key")
+            raise Exception("Please set your Google AI Studio key")
 
         api_key = os.getenv("GOOGLE_PALM_KEY")
-        palm.configure(api_key=api_key)
+        genai.configure(api_key=api_key)
 
-        safety_overrides = [
-            {"category": "HARM_CATEGORY_DEROGATORY", "threshold": 4},
-            {"category": "HARM_CATEGORY_TOXICITY", "threshold": 4},
-            {"category": "HARM_CATEGORY_VIOLENCE", "threshold": 4},
-            {"category": "HARM_CATEGORY_SEXUAL", "threshold": 4},
-            {"category": "HARM_CATEGORY_MEDICAL", "threshold": 4},
-            {"category": "HARM_CATEGORY_DANGEROUS", "threshold": 4},
+        safety_settings = [
+            {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_ONLY_HIGH"},
+            {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_ONLY_HIGH"},
+            {
+                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                "threshold": "BLOCK_ONLY_HIGH",
+            },
+            {
+                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                "threshold": "BLOCK_ONLY_HIGH",
+            },
         ]
 
         defaults = {
-            "model": "models/text-bison-001",
             "temperature": 0.7,
-            "candidate_count": 1,
             "top_k": 40,
             "top_p": 0.95,
             "max_output_tokens": 1024,
-            "stop_sequences": [],
-            "safety_settings": safety_overrides,
         }
 
-        self.defaults = defaults
+        self.model = genai.GenerativeModel(
+            model_name="gemini-pro",
+            generation_config=defaults,
+            safety_settings=safety_settings,
+        )
 
     def generate_text(self, prompt: str) -> str:
-        response = palm.generate_text(**self.defaults, prompt=prompt)
-        return response.candidates[0]["output"]
+        response = self.model.generate_content(prompt)
+        return response.text
